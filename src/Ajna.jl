@@ -26,7 +26,7 @@ function raster(ga::Vector,R::Rectangle=Rectangle(3))
         for g ∈ ga
             norm(P∧g)<δ && (c+=1)
         end
-        out[x,y] = GrayA(c,c)
+        out[1+R.ny-y,x] = GrayA(c,c)
     end
     return out
 end
