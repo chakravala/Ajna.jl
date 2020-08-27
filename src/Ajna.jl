@@ -14,14 +14,14 @@ struct Rectangle
     ny::Int
 end
 
-Rectangle(x) = Rectangle(-x,x,-x,x,100,100)
+Base.@pure Rectangle(x) = Rectangle(-x,x,-x,x,100,100)
 
-function raster(ga::Vector,R::Rectangle=Rectangle(3))
+function raster(ga::Vector{<:Chain{V}},R::Rectangle=Rectangle(3)) where V
     out = zeros(GrayA{Float64},R.nx,R.ny)
     δx,δy = (R.xmax-R.xmin)/(R.nx-1),(R.ymax-R.ymin)/(R.ny-1)
     δ = sqrt(δx^2+δy^2)/2
     for x ∈ 1:R.nx, y ∈ 1:R.ny
-        P = Chain(1.0,R.xmin+(x-1)*δx,R.ymin+(y-1)*δy)
+        P = Chain{V}(1.0,R.xmin+(x-1)*δx,R.ymin+(y-1)*δy)
         c = 0.0
         for g ∈ ga
             norm(P∧g)<δ && (c+=1)
